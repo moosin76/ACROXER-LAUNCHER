@@ -48,6 +48,9 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-build
     build: {
+			env: {
+				version : '0.0.2',
+			},
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,
@@ -86,7 +89,7 @@ module.exports = configure(function (ctx) {
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-framework
     framework: {
       config: {
-				dark : true
+				dark : true,
 			},
 
       iconSet: 'mdi-v6', // Quasar icon set
@@ -209,7 +212,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'acroxer-launcher'
+        appId: 'acroxer-launcher',
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

@@ -5,6 +5,8 @@ import os from 'os'
 import fs from 'fs';
 import './ipcMain';
 
+import createUpdateWindow from './electron-update';
+
 initialize();
 
 // needed in case process is undefined under Linux
@@ -22,6 +24,7 @@ function createWindow () {
   /**
    * Initial window options
    */
+	 
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
     width: 1600,
@@ -37,8 +40,10 @@ function createWindow () {
     }
   })
 
-	enable(mainWindow.webContents);
+	// console.log("appVersion", process.env.npm_package_version);
 
+	enable(mainWindow.webContents);
+	
   mainWindow.loadURL(process.env.APP_URL)
 
   if (process.env.DEBUGGING) {
@@ -56,7 +61,10 @@ function createWindow () {
   })
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(()=> {
+	createWindow();
+	createUpdateWindow();
+})
 
 app.on('window-all-closed', () => {
   if (platform !== 'darwin') {
@@ -67,5 +75,6 @@ app.on('window-all-closed', () => {
 app.on('activate', () => {
   if (mainWindow === null) {
     createWindow()
+		
   }
 })
