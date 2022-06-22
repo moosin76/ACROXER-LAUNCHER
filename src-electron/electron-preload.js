@@ -16,7 +16,7 @@
  *   })
  */
 import { contextBridge, ipcRenderer } from 'electron';
-import { BrowserWindow } from '@electron/remote'
+import { BrowserView, BrowserWindow } from '@electron/remote'
 
 contextBridge.exposeInMainWorld('myWinApi', {
 	minimize() {
@@ -36,7 +36,16 @@ contextBridge.exposeInMainWorld('myWinApi', {
 		console.log("api, close call");
 		BrowserWindow.getFocusedWindow().close()
 	},
+	setSize(width, height) {
+		const win = BrowserWindow.getFocusedWindow();
+		win.setSize(width, height, true);
+		win.center();
+	},
+	updateStatus(callback) {
+		ipcRenderer.on('update-status', callback);
+	},
 	saveTextFile(text) {
 		return ipcRenderer.invoke('saveTextFile', text);
 	}
+	
 })

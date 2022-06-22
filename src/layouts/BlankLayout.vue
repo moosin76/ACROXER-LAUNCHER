@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh Lpr lFf">
-    <!-- <q-header>
+    <q-header>
       <q-bar class="q-electron-drag justify-center bg-secondary">
         <q-btn to="/">Update</q-btn>
 
@@ -15,7 +15,7 @@
           <q-btn dense flat icon="mdi-close" @click="closeApp" />
         </div>
       </q-bar>
-    </q-header> -->
+    </q-header>
 
     <q-page-container>
       <router-view />
