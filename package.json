@@ -18,6 +18,7 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "electron-is-dev": "^2.0.0",
     "electron-log": "^4.4.7",
     "electron-updater": "^5.0.1",
     "quasar": "^2.6.0",
@@ -46,5 +47,9 @@
     "node": ">= 12.22.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  }
+  },
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/moosin76/ACROXER-DOWNLOAD.git"
+	}
 }

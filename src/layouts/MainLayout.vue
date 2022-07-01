@@ -25,7 +25,7 @@
           alt="logo"
           src="~assets/logo.png"
           style="width: 400px; height: 50px"
-					@click="$router.push('/')"
+          @click="$router.push('/')"
         />
 
         <div class="q-electron-drag col-grow full-height"></div>
@@ -49,7 +49,7 @@
         </q-btn>
         <q-btn to="/" label="U"></q-btn>
         <q-btn to="/adm" label="A"></q-btn>
-				<q-btn to="/update" label="up"></q-btn>
+        <q-btn to="/update" label="up"></q-btn>
       </div>
     </q-header>
 
@@ -100,6 +100,13 @@ export default defineComponent({
       toggleMaximize,
       closeApp,
     };
+  },
+  methods: {
+    setSize(w, h) {
+      if (process.env.MODE === "electron") {
+        window.myWinApi.setSize(w, h);
+      }
+    },
   },
 });
 </script>

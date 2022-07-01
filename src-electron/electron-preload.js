@@ -44,8 +44,13 @@ contextBridge.exposeInMainWorld('myWinApi', {
 	updateStatus(callback) {
 		ipcRenderer.on('update-status', callback);
 	},
+	checkUpdate() {
+		return ipcRenderer.invoke('checkUpdate');
+	},
 	saveTextFile(text) {
 		return ipcRenderer.invoke('saveTextFile', text);
-	}
+	},
+	
+	
 	
 })

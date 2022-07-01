@@ -1,6 +1,7 @@
 import path from 'path'
 import os from 'os'
 import fs from 'fs';
+import isDev from 'electron-is-dev';
 
 import { app, BrowserWindow, nativeTheme, dialog } from 'electron'
 import { initialize, enable } from '@electron/remote/main'
@@ -8,7 +9,6 @@ import { initialize, enable } from '@electron/remote/main'
 // auto update 관련코드
 import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
-
 
 import './ipcMain';
 
@@ -32,8 +32,8 @@ function createWindow() {
 
 	mainWindow = new BrowserWindow({
 		icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
-		width: 400,
-		height: 400,
+		width: 1600,
+		height: 1024,
 		resizable: false,
 		useContentSize: true,
 		backgroundColor: '#171b28',
@@ -46,8 +46,16 @@ function createWindow() {
 	})
 
 	enable(mainWindow.webContents);
+	console.log("APP URL: ", process.env.APP_URL);
+	if(isDev) {
+		mainWindow.loadURL('http://localhost:8081').then(()=>{
+			console.log(a);
+		});
+	} else {
+		mainWindow.loadURL(process.env.APP_URL + '#/update')
+	}
 
-	mainWindow.loadURL(process.env.APP_URL + '#/update')
+	
 
 	// if (process.env.DEBUGGING) {
 	// 	// if on DEV or Production with debug enabled
@@ -57,23 +65,28 @@ function createWindow() {
 	// 	mainWindow.webContents.on('devtools-opened', () => {
 	// 		mainWindow.webContents.closeDevTools()
 	// 	})
+
+	
 	// }
 
-	mainWindow.webContents.openDevTools()
+	mainWindow.webContents.openDevTools();
 
 	mainWindow.on('closed', () => {
 		mainWindow = null
-	})
+	});
+
 }
 
 
 app.whenReady().then(() => {
 	createWindow();
-	setTimeout(() => {
-		sendStatusMessage({ type: 'test', msg: `version : ${app.getVersion()}` });
-	}, 2500);
+	// setTimeout(() => {
+	// 	sendStatusMessage({ type: 'test', msg: `version : ${app.getVersion()}` });
+	// }, 2500);
 
-
+	// setTimeout(() => {
+	// 	sendStatusMessage({ type: 'test', msg: `isDev : ${isDev}` });
+	// }, 3500);
 })
 
 app.on('window-all-closed', () => {
@@ -88,12 +101,15 @@ app.on('activate', () => {
 	}
 })
 
-
+// console.log(process.env);
 // auto update 관련 코드
-log.info("npm package version", process.env.npm_package_version);
-log.info("appVersion", app.getVersion());
+// log.info("npm package version", process.env.npm_package_version);
+// log.info("appVersion", app.getVersion());
 autoUpdater.logger = log;
 autoUpdater.logger.transports.file.level = 'info';
+// const updateServerUrl = `http://localhost:5000/download/latest`;
+//log.info('updateServerUrl', updateServerUrl);
+// autoUpdater.setFeedURL(updateServerUrl);
 
 function sendStatusMessage(obj) {
 	log.info('sendStatusMessage ==>', obj);
@@ -106,6 +122,10 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', (info) => {
 	sendStatusMessage({ type: 'update-available', msg: 'Update available.', info });
+})
+
+autoUpdater.on('update-not-available', (info) => {
+	sendStatusMessage({ type: 'routerTo', path: '/' });
 })
 
 autoUpdater.on('error', (err) => {
@@ -135,10 +155,10 @@ autoUpdater.on('update-downloaded', (info) => {
 });
 
 app.on('ready', function () {
-	setTimeout(() => {
-		log.info("checkForUpdatesAndNotify", autoUpdater.getFeedURL());
-		sendStatusMessage({type : 'test', msg: `autoUpdater FeedURL : ${autoUpdater.getFeedURL()}`});
-		autoUpdater.checkForUpdatesAndNotify();
-	}, 2000);
+	// setTimeout(() => {
+	// 	log.info("checkForUpdatesAndNotify",);
+	// 	sendStatusMessage({ type: 'test', msg: `autoUpdater SET` });
+	// 	autoUpdater.checkForUpdatesAndNotify();
+	// }, 2000);
 
 });

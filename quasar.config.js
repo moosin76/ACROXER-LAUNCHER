@@ -213,6 +213,12 @@ module.exports = configure(function (ctx) {
         // https://www.electron.build/configuration/configuration
 
         appId: 'acroxer-launcher',
+				// win: {
+				// 	publish : {
+				// 		provider : 'github',
+				// 		remoteReleases : "https://github.com/moosin76/ACROXER-DOWNLOAD"
+				// 	}
+				// }
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
